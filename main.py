@@ -13,6 +13,9 @@ app = Flask(__name__)
 channel_secret = os.getenv("CHANNEL_SECRET")
 channel_access_token = os.getenv("CHANNEL_ACCESS_TOKEN")
 
+if not channel_secret or not channel_access_token:
+    raise ValueError("CHANNEL_SECRET or CHANNEL_ACCESS_TOKEN is not set.")
+
 # v3用の設定
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)

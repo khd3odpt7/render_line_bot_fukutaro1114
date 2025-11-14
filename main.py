@@ -14,7 +14,14 @@ channel_secret = os.getenv("CHANNEL_SECRET")
 channel_access_token = os.getenv("CHANNEL_ACCESS_TOKEN")
 
 if not channel_secret or not channel_access_token:
-    raise ValueError("CHANNEL_SECRET or CHANNEL_ACCESS_TOKEN is not set.")
+    logging.error("CHANNEL_SECRET or CHANNEL_ACCESS_TOKEN is not set.")
+    # アプリを落とさず、Renderに200を返すようにする
+    @app.route("/", methods=["GET"])
+    def index():
+        return "Environment variables not set", 200
+
+    # 起動しないようにする
+    exit(0)
 
 # v3用の設定
 configuration = Configuration(access_token=channel_access_token)

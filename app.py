@@ -24,9 +24,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    # ユーザーIDを取得
+    user_id = event.source.user_id
+    print(f"User ID: {user_id}")  # コンソールに表示
+
+    # ユーザーIDを返信メッセージに含める例
+    reply_text = f"あなたのUserIDは: {user_id}\nメッセージ: {event.message.text}"
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text)
+        TextSendMessage(text=reply_text)
     )
 
 if __name__ == "__main__":
